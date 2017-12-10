@@ -48,7 +48,7 @@ public class DbCreatorListener implements ServletContextListener{
             + ", cd_password_bibliotecario VARCHAR(255)"
             + ", cd_cpf_bibliotecario VARCHAR(255)"
             + ")");
-            statement.execute("INSERT INTO bibliotecario VALUES (default, 'Administrador', 'admin', 'admin', ' - ')");
+            statement.execute("INSERT INTO bibliotecario VALUES (default, 'Administrador', 'admin', '"+"admin".hashCode()+"', ' - ')");
         }catch(Exception exception){
             System.out.println("ERRO: [class:DbCreatorListener][method:createTableBibliotecario]: " + exception.getMessage());
         }
