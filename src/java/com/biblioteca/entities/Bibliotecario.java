@@ -26,25 +26,21 @@ public class Bibliotecario extends Pessoa {
     }
 
     // Retorna um objeto Bibliotecário caso login e senha existam (verificação de acesso)
-    public Bibliotecario getBibliotecario(String login, String password){
+    public static Bibliotecario getBibliotecario(String login, String password) throws SQLException{
         Bibliotecario bibliotecario = null;
-        try{
-            String SQL = "SELECT * FROM bibliotecario"
-                    + "WHERE nm_login_bibliotecario = ?"
-                    + "AND cd_password_bibliotecario = ?";
-            PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
-            statement.setString(1, login);
-            statement.setString(2, password.hashCode()+"");
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                bibliotecario = new Bibliotecario(resultSet.getInt("id"), 
-                        resultSet.getString("nm_bibliotecario"), 
-                        resultSet.getString("cd_cpf_bibliotecario"),
-                        resultSet.getString("nm_login_bibliotecario"),
-                        null);
-            }
-        }catch(Exception exception){
-            System.out.println("[class:Bibliotecario][catch:getBibliotecario]: "+exception.getMessage());
+        String SQL = "SELECT * FROM bibliotecario WHERE nm_login_bibliotecario=? AND cd_password_bibliotecario=?";
+        PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
+        statement.setString(1, login);
+        statement.setString(2, password.hashCode()+"");
+        System.out.println(password.hashCode()+"");
+        ResultSet resultSet = statement.executeQuery();
+        if(resultSet.next()){
+            bibliotecario = new Bibliotecario(resultSet.getInt("cd_bibliotecario"), 
+                resultSet.getString("nm_bibliotecario"), 
+                resultSet.getString("cd_cpf_bibliotecario"),
+                resultSet.getString("nm_login_bibliotecario"),
+                resultSet.getString("cd_password_bibliotecario"));
+            statement.close();
         }
         return bibliotecario;
     }
@@ -148,12 +144,13 @@ public class Bibliotecario extends Pessoa {
         }
         return "CPF inválido.";
     }
-    
-    public String getName(){
-        return this.name;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
     }
     
-    public String getCpf(){
-        return this.cpf;
-    }
 }
