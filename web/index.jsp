@@ -11,17 +11,17 @@
     if(request.getParameter("bibliotecarioSubmit") != null){
         try{
             Bibliotecario bibliotecario = Bibliotecario.getBibliotecario(request.getParameter("bibliotecarioLogin"), request.getParameter("bibliotecarioPassword"));
-            if(bibliotecario != null){
+            if(bibliotecario == null){
+                error = "Login ou senha incorretos.";
+            }
+            else{
                 session.setAttribute("bibliotecarioId", bibliotecario.getId());
                 session.setAttribute("bibliotecarioName", bibliotecario.getName());
                 session.setAttribute("bibliotecarioCpf", bibliotecario.getCpf());
                 session.setAttribute("bibliotecarioLogin", bibliotecario.getLogin());
                 response.sendRedirect(request.getContextPath()+"/home.jsp");
             }
-            else
-                error = "Login ou senha incorretos.";
-        }
-        catch(Exception ex){
+        }catch(Exception ex){
             error = ex.getMessage();
         }
     }

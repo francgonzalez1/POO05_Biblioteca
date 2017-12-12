@@ -26,28 +26,31 @@ public class Bibliotecario extends Pessoa {
     }
 
     // Retorna um objeto Bibliotecário caso login e senha existam (verificação de acesso)
-    public static Bibliotecario getBibliotecario(String login, String password) throws SQLException{
+    public static Bibliotecario getBibliotecario(String login, String password){
         Bibliotecario bibliotecario = null;
-        String SQL = "SELECT * FROM bibliotecario WHERE nm_login_bibliotecario=? AND cd_password_bibliotecario=?";
-        PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
-        statement.setString(1, login);
-        statement.setString(2, password.hashCode()+"");
-        System.out.println(password.hashCode()+"");
-        ResultSet resultSet = statement.executeQuery();
-        if(resultSet.next()){
-            bibliotecario = new Bibliotecario(resultSet.getInt("cd_bibliotecario"), 
-                resultSet.getString("nm_bibliotecario"), 
-                resultSet.getString("cd_cpf_bibliotecario"),
-                resultSet.getString("nm_login_bibliotecario"),
-                resultSet.getString("cd_password_bibliotecario"));
-            statement.close();
+        try{
+            String SQL = "SELECT * FROM bibliotecario WHERE nm_login_bibliotecario = ? AND cd_password_bibliotecario = ?";
+            PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
+            statement.setString(1, login);
+            statement.setString(2, password.hashCode()+"");
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                bibliotecario = new Bibliotecario(resultSet.getInt("cd_bibliotecario"), 
+                    resultSet.getString("nm_bibliotecario"), 
+                    resultSet.getString("cd_cpf_bibliotecario"),
+                    resultSet.getString("nm_login_bibliotecario"),
+                    resultSet.getString("cd_password_bibliotecario"));
+                statement.close();
+            }
+        }catch(Exception exception){
+            System.out.println("[class:Bibliotecario][catch:getBibliotecario]: "+exception.getMessage());
         }
         return bibliotecario;
     }
     
     // Registra um novo bibliotecário, validando login, senha e CPF por funções
-    public String setBibliotecario(String name, String login, String password, String cpf) throws SQLException{
-        if(verifyLogin(login) && verifyPassword(password) && verifyCPF(cpf)){
+    public static String setBibliotecario(String name, String login, String password, String cpf) throws SQLException{
+        if(verifyLogin(login) && verifyPassword(password) && validateCpf(cpf)){
             String SQL = "INSERT INTO bibliotecario VALUES (default,?,?,?,?)";
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
             statement.setString(1, name);
@@ -68,7 +71,7 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Método booleano que retorna true se login não existe, falso se já existe na db.
-    private boolean verifyLogin(String login){
+    private static boolean verifyLogin(String login){
         try{
             String SQL = "SELECT * FROM bibliotecario WHERE nm_login_bibliotecario = ?";
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
@@ -82,17 +85,12 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Método que verifica se senha possui 1 maiusculo, 1 minusculo, 1 especial e 1 numero.
-    private boolean verifyPassword(String password){
+    private static boolean verifyPassword(String password){
         return password.matches("^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*\\/_-]).*$");
     }
     
-    // Falta adicionar uma validação de CPF (se necessário)
-    private boolean verifyCPF(String cpf){
-        return true;
-    }
-    
     // Altera um nome de um bibliotecario na db.
-    public String setName(String id, String name){
+    public static String setName(String id, String name){
         try{
             String SQL = "UPDATE bibliotecario SET nm_bibliotecario = ?"
                         + "WHERE cd_bibliotecario = ?";
@@ -108,7 +106,7 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Valida senha e altera senha de um bibliotecario na db.
-    public String setPassword(String id, String password) {
+    public static String setPassword(String id, String password) {
         if(verifyPassword(password)){
             try{
                 String SQL = "UPDATE bibliotecario SET cd_password_bibliotecario = ?"
@@ -127,8 +125,8 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Altera o CPF de um bibliotecario na db.
-    public String setCPF(String id, String cpf) {
-        if(verifyCPF(cpf)){
+    public static String setCPF(String id, String cpf) {
+        if(validateCpf(cpf)){
             try{
                 String SQL = "UPDATE bibliotecario SET cd_cpf_bibliotecario = ?"
                         + "WHERE cd_bibliotecario = ?";
