@@ -19,6 +19,7 @@
                 session.setAttribute("bibliotecarioName", bibliotecario.getName());
                 session.setAttribute("bibliotecarioCpf", bibliotecario.getCpf());
                 session.setAttribute("bibliotecarioLogin", bibliotecario.getLogin());
+                session.setAttribute("bibliotecarioEmail", bibliotecario.getEmail());
                 response.sendRedirect(request.getContextPath()+"/home.jsp");
             }
         }catch(Exception ex){
@@ -45,6 +46,7 @@
                 Senha: <input type="password" name="bibliotecarioPassword" required/><br/>
                 <input type="submit" name="bibliotecarioSubmit" value="Acessar"/>
             </form>
+            <a href="cadastroBibliotecario.jsp">Cadastre-se</a>
         </fieldset>
     </body>
 </html>

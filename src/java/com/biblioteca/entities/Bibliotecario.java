@@ -40,8 +40,9 @@ public class Bibliotecario extends Pessoa {
                     resultSet.getString("cd_cpf_bibliotecario"),
                     resultSet.getString("nm_login_bibliotecario"),
                     resultSet.getString("cd_password_bibliotecario"),
-                    resultSet.getString("cd_email_bibliotecario"));
+                    resultSet.getString("nm_email_bibliotecario"));
                 statement.close();
+                return bibliotecario;
             }
         }catch(Exception exception){
             System.out.println("[class:Bibliotecario][catch:getBibliotecario]: "+exception.getMessage());
@@ -50,8 +51,8 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Registra um novo bibliotecário, validando login, senha e CPF por funções
-    public static String setBibliotecario(String name, String login, String password, String cpf, String email) throws SQLException{
-        if(verifyLogin(login) && verifyPassword(password) && validateCpf(cpf) && verifyEmail(email)){
+    public static String setBibliotecario(String name, String login, String password, String passwordConfirm, String cpf, String email) throws SQLException{
+        if(verifyLogin(login) && verifyPassword(password, passwordConfirm) && validateCpf(cpf) && verifyEmail(email)){
             String SQL = "INSERT INTO bibliotecario VALUES (default,?,?,?,?,?)";
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
             statement.setString(1, name);
@@ -65,8 +66,10 @@ public class Bibliotecario extends Pessoa {
         }else{
             if(!verifyLogin(login))
                 return "Login já cadastrado.";
-            else if(!verifyPassword(password))
-                return "Senha inválida. Mínimo requerido: 1 char maiúsculo, 1 minúsculo, 1 char especial, 1 número.";
+            else if(!verifyPassword(password, passwordConfirm))
+                return "A senha digitada ou sua confirmação são inválidas. "
+                        + "Por favor, insira uma senha com no mínimo de: "
+                        + "1 char maiúsculo, 1 char minusculo, 1 char especial e 1 char numérico";
             else if(!verifyEmail(email))
                 return "Email inválido.";
             else
@@ -74,8 +77,8 @@ public class Bibliotecario extends Pessoa {
         }
     }
     
-    public static String updateBibliotecario(int id, String name, String login, String password, String cpf, String email) throws SQLException{
-        if(verifyLogin(login) && verifyPassword(password) && validateCpf(cpf) && verifyEmail(email)){
+    public static String updateBibliotecario(int id, String name, String login, String password, String passwordConfirm, String cpf, String email) throws SQLException{
+        if(verifyLogin(login) && verifyPassword(password, passwordConfirm) && validateCpf(cpf) && verifyEmail(email)){
             String SQL = "UPDATE bibliotecario SET"
                     + "nm_bibliotecario = ?"
                     + ", nm_login_bibliotecario = ?"
@@ -96,7 +99,7 @@ public class Bibliotecario extends Pessoa {
         }else{
             if(!verifyLogin(login))
                 return "Login já cadastrado.";
-            else if(!verifyPassword(password))
+            else if(!verifyPassword(password, password))
                 return "Senha inválida. Mínimo requerido: 1 char maiúsculo, 1 minúsculo, 1 char especial, 1 número.";
             else if(!verifyEmail(email))
                 return "Email inválido.";
@@ -135,12 +138,17 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Método que verifica se senha possui 1 maiusculo, 1 minusculo, 1 especial e 1 numero.
-    private static boolean verifyPassword(String password){
-        return password.matches("^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*\\/_-]).*$");
+    private static boolean verifyPassword(String password, String passwordConfirm){
+        if(password.matches("^.*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*\\/_-]).*$")){
+            if(password.equals(passwordConfirm))
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
-    
-    // Altera um nome de um bibliotecario na db.
-    public static String setName(String id, String name){
+
+        public static String setName(String id, String name){
         try{
             String SQL = "UPDATE bibliotecario SET nm_bibliotecario = ?"
                         + "WHERE cd_bibliotecario = ?";
@@ -156,8 +164,8 @@ public class Bibliotecario extends Pessoa {
     }
     
     // Valida senha e altera senha de um bibliotecario na db.
-    public static String setPassword(String id, String password) {
-        if(verifyPassword(password)){
+    public static String setPassword(String id, String password, String passwordConfirm) {
+        if(verifyPassword(password, passwordConfirm)){
             try{
                 String SQL = "UPDATE bibliotecario SET cd_password_bibliotecario = ?"
                         + "WHERE cd_bibliotecario = ?";
@@ -210,7 +218,7 @@ public class Bibliotecario extends Pessoa {
         }
         return false;
     }
-
+    
     public String getLogin() {
         return login;
     }
