@@ -110,6 +110,7 @@ public class Aluguel {
                 resultSet.getDouble("vl_multa_emprestimo"));
             }
             statement.close();
+            return aluguel;
         }catch(Exception exception){
             System.out.println("[class:Aluguel][catch:getAluguel]: "+exception.getMessage());
         }

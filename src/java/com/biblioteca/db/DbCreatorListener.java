@@ -21,6 +21,7 @@ public class DbCreatorListener implements ServletContextListener{
             + ", nm_aluno VARCHAR(255)"
             + ", cpf_aluno VARCHAR(255)"
             + ", ra_aluno VARCHAR(255)"
+            + ", nm_email_aluno VARCHAR(255)"
             + ")");
         }catch(Exception exception){
             System.out.println("ERRO: [class:DbCreatorListener][method:createTableAluno]" + exception.getMessage());
@@ -47,8 +48,9 @@ public class DbCreatorListener implements ServletContextListener{
             + ", nm_login_bibliotecario VARCHAR(45)"
             + ", cd_password_bibliotecario VARCHAR(255)"
             + ", cd_cpf_bibliotecario VARCHAR(255)"
+            + ", nm_email_bibliotecario VARCHAR(255)"
             + ")");
-            statement.execute("INSERT INTO bibliotecario VALUES (default, 'Administrador', 'admin', '"+"admin".hashCode()+"', ' - ')");
+            statement.execute("INSERT INTO bibliotecario VALUES (default, 'Administrador', 'admin', '"+"admin".hashCode()+"', ' - ', 'admin@admin.com')");
         }catch(Exception exception){
             System.out.println("ERRO: [class:DbCreatorListener][method:createTableBibliotecario]: " + exception.getMessage());
         }
