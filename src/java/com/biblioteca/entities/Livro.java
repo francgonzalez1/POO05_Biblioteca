@@ -55,6 +55,7 @@ public class Livro {
                                   resultSet.getString("ds_livro"), 
                                   resultSet.getString("cd_isbn_livro"));
             }
+            resultSet.close();
             statement.close();
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:getLivro]: "+exception.getMessage());
@@ -79,6 +80,7 @@ public class Livro {
                                   resultSet.getString("cd_isbn_livro"));
                 livros.add(livro);
             }
+            resultSet.close();
             statement.close();
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:getSearchedLivro]: "+exception.getMessage());
@@ -128,6 +130,7 @@ public class Livro {
                 }
                 livros.add(livroR);
             }
+            resultSet.close();
             statement.close();
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:getLivros]: "+exception.getMessage());

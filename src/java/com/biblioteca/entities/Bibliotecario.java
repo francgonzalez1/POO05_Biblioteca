@@ -41,9 +41,9 @@ public class Bibliotecario extends Pessoa {
                     resultSet.getString("nm_login_bibliotecario"),
                     resultSet.getString("cd_password_bibliotecario"),
                     resultSet.getString("nm_email_bibliotecario"));
-                statement.close();
-                return bibliotecario;
             }
+            resultSet.close();
+            statement.close();
         }catch(Exception exception){
             System.out.println("[class:Bibliotecario][catch:getBibliotecario]: "+exception.getMessage());
         }
@@ -115,8 +115,13 @@ public class Bibliotecario extends Pessoa {
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                resultSet.close();
+                statement.close();
+                return false;
+            }
+            resultSet.close();
             statement.close();
-            if(resultSet.next()) return false;
         }catch(Exception exception){
             System.out.println("[class:Bibliotecario][catch:verifyLogin]: "+exception.getMessage());
         }
@@ -129,8 +134,13 @@ public class Bibliotecario extends Pessoa {
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                resultSet.close();
+                statement.close();
+                return false;
+            }
+            resultSet.close();
             statement.close();
-            if(resultSet.next()) return false;
         }catch(Exception exception){
             System.out.println("[class:Bibliotecario][catch:verifyEmail]: "+exception.getMessage());
         }

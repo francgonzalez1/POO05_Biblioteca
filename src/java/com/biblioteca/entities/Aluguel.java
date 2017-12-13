@@ -62,8 +62,8 @@ public class Aluguel {
                 resultSet.getString("dt_devolucao_prevista_livro"));
                 alugueis.add(aluguel);
             }
+            resultSet.close();
             statement.close();
-            return alugueis;
         }catch(Exception exception){
             System.out.println("[class:Aluguel][catch:getAluguelList]: "+exception.getMessage());
         }
@@ -86,8 +86,8 @@ public class Aluguel {
                 resultSet.getDouble("vl_multa_emprestimo"));
                 alugueis.add(aluguel);
             }
+            resultSet.close();
             statement.close();
-            return alugueis;
         }catch(Exception exception){
             System.out.println("[class:Aluguel][catch:getAllAlugueisList]: "+exception.getMessage());
         }
@@ -107,6 +107,7 @@ public class Aluguel {
                 }
                 alugueis.add(aluguelR);
             }
+            resultSet.close();
             statement.close();
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:getLivros]: "+exception.getMessage());
@@ -129,8 +130,8 @@ public class Aluguel {
                 resultSet.getString("dt_devolucao_real_livro"),
                 resultSet.getDouble("vl_multa_emprestimo"));
             }
+            resultSet.close();
             statement.close();
-            return aluguel;
         }catch(Exception exception){
             System.out.println("[class:Aluguel][catch:getAluguel]: "+exception.getMessage());
         }
@@ -184,8 +185,9 @@ public class Aluguel {
                 Date date = new Date();
                 long inicio = Long.parseLong(resultSet.getString("dt_devolucao_prevista_livro"));
                 long daysMulta = Math.abs(date.getTime() - inicio);
-                return (double) daysMulta * 5;
+                multa = (double) daysMulta * 5;
             }
+            resultSet.close();
             statement.close();
         }catch(Exception exception){
             System.out.println("[class:Aluguel][catch:defineMulta]: "+exception.getMessage());

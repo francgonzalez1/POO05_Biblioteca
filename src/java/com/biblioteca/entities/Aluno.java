@@ -31,8 +31,8 @@ public class Aluno extends Pessoa {
                                   resultSet.getString("ra_aluno"),
                                   resultSet.getString("nm_email_aluno"));
             }
+            resultSet.close();
             statement.close();
-            return aluno;
         }catch(Exception exception){
             System.out.println("[class:Aluno][catch:getAluno]: "+exception.getMessage());
         }
@@ -52,8 +52,8 @@ public class Aluno extends Pessoa {
                                   resultSet.getString("nm_email_aluno"));
                 alunos.add(aluno);
             }
+            resultSet.close();
             statement.close();
-            return alunos;
         }catch(Exception exception){
             System.out.println("[class:Aluno][catch:getAlunos]: "+exception.getMessage());            
         }
@@ -74,6 +74,7 @@ public class Aluno extends Pessoa {
                 }
                 alunos.add(alunoR);
             }
+            resultSet.close();
             statement.close();
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:getLivros]: "+exception.getMessage());
@@ -130,9 +131,13 @@ public class Aluno extends Pessoa {
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) { 
+            if(resultSet.next()) {
+                resultSet.close();
                 statement.close();
-                return false;}
+                return false;
+            }
+            resultSet.close();
+            statement.close();
         }catch(Exception exception){
             System.out.println("[class:Aluno][catch:verifyEmail]: "+exception.getMessage());
         }
