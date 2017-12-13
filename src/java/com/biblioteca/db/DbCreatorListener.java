@@ -35,6 +35,7 @@ public class DbCreatorListener implements ServletContextListener{
             + ", nm_tipo_livro VARCHAR(255)"
             + ", ds_livro VARCHAR(255)"
             + ", cd_isbn_livro VARCHAR(255)"
+            + ", ic_disabled BOOLEAN"
             + ")");
         }catch(Exception exception){
             System.out.println("ERRO: [class:DbCreatorListener][method:createTableLivro]: " + exception.getMessage());
