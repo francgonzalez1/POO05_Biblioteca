@@ -21,12 +21,12 @@ public class Aluguel {
     private int id_aluno;
     private int id_livro;
     private int id_bibliotecario;
-    private Date dt_emprestimo;
-    private Date dt_devolucao_prevista;
-    private Date dt_devolucao_real;
+    private String dt_emprestimo;
+    private String dt_devolucao_prevista;
+    private String dt_devolucao_real;
     private double vl_multa;
 
-    public Aluguel(int id, int id_aluno, int id_livro, int id_bibliotecario, Date dt_emprestimo, Date dt_devolucao_prevista) {
+    public Aluguel(int id, int id_aluno, int id_livro, int id_bibliotecario, String dt_emprestimo, String dt_devolucao_prevista) {
         this.id = id;
         this.id_aluno = id_aluno;
         this.id_livro = id_livro;
@@ -36,7 +36,7 @@ public class Aluguel {
     }
     
     // Construtor com tudo
-    public Aluguel(int id, int id_aluno, int id_livro, int id_bibliotecario, Date dt_emprestimo, Date dt_devolucao_prevista, Date dt_devolucao_real, double vl_multa) {
+    public Aluguel(int id, int id_aluno, int id_livro, int id_bibliotecario, String dt_emprestimo, String dt_devolucao_prevista, String dt_devolucao_real, double vl_multa) {
         this.id = id;
         this.id_aluno = id_aluno;
         this.id_livro = id_livro;
@@ -52,14 +52,14 @@ public class Aluguel {
         try{
             Statement statement = Database.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM aluguel WHERE cd_aluno = "+id_aluno+""
-                    + "AND dt_devolucao_real_livro IS NOT NULL");
+                    + "AND dt_devolucao_real_livro IS NULL");
             while(resultSet.next()){
                 Aluguel aluguel = new Aluguel(resultSet.getInt("cd_aluguel_livro"),
                 resultSet.getInt("cd_aluno"),
                 resultSet.getInt("cd_livro"),
                 resultSet.getInt("cd_bibliotecario"),
-                resultSet.getDate("dt_emprestimo_livro"),
-                resultSet.getDate("dt_devolucao_prevista_livro"));
+                resultSet.getString("dt_emprestimo_livro"),
+                resultSet.getString("dt_devolucao_prevista_livro"));
                 alugueis.add(aluguel);
             }
             statement.close();
@@ -80,9 +80,9 @@ public class Aluguel {
                 resultSet.getInt("cd_aluno"),
                 resultSet.getInt("cd_livro"),
                 resultSet.getInt("cd_bibliotecario"),
-                resultSet.getDate("dt_emprestimo_livro"),
-                resultSet.getDate("dt_devolucao_prevista_livro"),
-                resultSet.getDate("dt_devolucao_real_livro"),
+                resultSet.getString("dt_emprestimo_livro"),
+                resultSet.getString("dt_devolucao_prevista_livro"),
+                resultSet.getString("dt_devolucao_real_livro"),
                 resultSet.getDouble("vl_multa_emprestimo"));
                 alugueis.add(aluguel);
             }
@@ -124,9 +124,9 @@ public class Aluguel {
                 resultSet.getInt("cd_aluno"),
                 resultSet.getInt("cd_livro"),
                 resultSet.getInt("cd_bibliotecario"),
-                resultSet.getDate("dt_emprestimo_livro"),
-                resultSet.getDate("dt_devolucao_prevista_livro"),
-                resultSet.getDate("dt_devolucao_real_livro"),
+                resultSet.getString("dt_emprestimo_livro"),
+                resultSet.getString("dt_devolucao_prevista_livro"),
+                resultSet.getString("dt_devolucao_real_livro"),
                 resultSet.getDouble("vl_multa_emprestimo"));
             }
             statement.close();
@@ -137,7 +137,7 @@ public class Aluguel {
         return aluguel;
     }
     
-    public static int addAluguel(int id_aluno, int id_livro, int id_bibliotecario, Date dt_emprestimo, Date dt_devolucao_prevista){
+    public static int addAluguel(int id_aluno, int id_livro, int id_bibliotecario, String dt_emprestimo, String dt_devolucao_prevista){
         int aux;
         try{
             String SQL = "INSERT INTO aluguel VALUES (default, ?, ?, ?, ?, ?, null, null)";
@@ -145,8 +145,8 @@ public class Aluguel {
             statement.setInt(1, id_aluno);
             statement.setInt(2, id_livro);
             statement.setInt(3, id_bibliotecario);
-            statement.setDate(4, new java.sql.Date(dt_emprestimo.getTime()));
-            statement.setDate(5, new java.sql.Date(dt_devolucao_prevista.getTime()));
+            statement.setString(4, dt_emprestimo);
+            statement.setString(5, dt_devolucao_prevista);
             statement.execute();
             statement.close();
             aux = 1;
@@ -161,11 +161,10 @@ public class Aluguel {
         try{
             String SQL = "UPDATE aluguel SET dt_devolucao_real_livro = ?, vl_multa_emprestimo = ?"
                     + "WHERE cd_aluguel_livro = ?";
+            Date date = new Date();
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
-            Date dt = new Date();
             double multa = Aluguel.defineMulta(id);
-            java.sql.Date date = new java.sql.Date(dt.getTime());
-            statement.setDate(1, date);
+            statement.setString(1, String.valueOf(date));
             statement.setDouble(2, multa);
             statement.setInt(3, id);
             statement.execute();
@@ -192,13 +191,5 @@ public class Aluguel {
             System.out.println("[class:Aluguel][catch:defineMulta]: "+exception.getMessage());
         }
         return multa;
-    }
-    public static boolean validateDevolucao(Date date){
-        Date now = new Date();
-        long validateDate = Math.abs(date.getTime() - now.getTime());
-        if(validateDate < 0)
-            return false;
-        else
-            return true;
     }
 }
