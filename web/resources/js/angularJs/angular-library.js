@@ -174,12 +174,45 @@ AngularLibrary.controller('controllerAlugueis', function ($scope, $rootScope, po
         postService.query(dados, url).then(function (re) {
             alert("livro add");
             console.log(re.data.re);
-            $scope.getLivros();
-            $("#includeBooks").modal('hide');
+            $scope.getAlugueis();
+            $("#includeRent").modal('hide');
         }).catch(function (re) {
-            alert("livro naum add");
+            alert("rent naum add");
             console.log(re.data.re);
         });
 
     };
 });
+
+AngularLibrary.controller('controllerStudant', function ($scope, $rootScope, postService, $http, $timeout) {
+
+    $scope.getStudant = function () {
+        $http.get("data/manager.jsp?action=getStudant")
+                .then((response) => {
+                    $scope.studants = [];
+                    $scope.studants = response.data.alunos;
+                    if ($scope.studants == "") {
+                        $scope.selectError = response.data.re;
+                        console.log($scope.selectError);
+                    } else {
+                    }
+                });
+    };
+    $scope.getStudant();
+
+ $scope.addStudant = function (studant) {
+        var dados = {name: studant.name, cpf: studant.cpf, ra: studant.ra, email: studant.email};
+        var url = "data/manager.jsp?action=addStudant";
+        postService.query(dados, url).then(function (re) {
+            alert("livro add");
+            console.log(re.data.re);
+            $scope.getLivros();
+            $("#includeStudant").modal('hide');
+        }).catch(function (re) {
+            alert("studant naum add");
+            console.log(re.data.re);
+        });
+
+    };
+});
+

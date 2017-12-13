@@ -60,6 +60,27 @@ public class Aluno extends Pessoa {
         return alunos;
     }
     
+    
+    public static List<Object[]> getAllAlunos(){
+        ArrayList<Object[]> alunos = new ArrayList<>();
+        Object[] alunoR;
+        try{
+            Statement statement = Database.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM aluno");
+            while(resultSet.next()){
+                alunoR = new Object[5];
+                for(int i = 0; i < 5; i++){
+                    alunoR[i] = resultSet.getString(i + 1);
+                }
+                alunos.add(alunoR);
+            }
+            statement.close();
+        }catch(Exception exception){
+            System.out.println("[class:Livro][catch:getLivros]: "+exception.getMessage());
+        }
+        return alunos;
+    }
+    
     public static String setAluno(String name, String cpf, String ra, String email) throws SQLException{
         if(validateCpf(cpf) && verifyEmail(email)){
             String SQL = "INSERT INTO aluno VALUES (default, ?, ?, ?, ?)";
@@ -109,8 +130,9 @@ public class Aluno extends Pessoa {
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            statement.close();
-            if(resultSet.next()) return false;
+            if(resultSet.next()) { 
+                statement.close();
+                return false;}
         }catch(Exception exception){
             System.out.println("[class:Aluno][catch:verifyEmail]: "+exception.getMessage());
         }

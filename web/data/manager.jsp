@@ -4,6 +4,7 @@
     Author     : muril
 --%>
 
+<%@page import="com.biblioteca.entities.Aluno"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.biblioteca.entities.Aluguel"%>
 <%@page import="java.util.List"%>
@@ -99,15 +100,15 @@
 } else {
     contador = alugueis.size();
 %>
-{"livros":[
+{"alugueis":[
 <%for (Object[] row : alugueis) {%>
 {"id":<%= row[0]%>,
 "id_aluno":"<%=row[1]%>", 
 "id_livro":"<%=row[2]%>",
 "id_bibliotecario":"<%=row[3]%>",
 "date_emprestimo":"<%=row[4]%>",
-"date_devolução_p":"<%=row[5]%>",
-"date_devolução_r":"<%=row[6]%>",
+"date_devolucao_p":"<%=row[5]%>",
+"date_devolucao_r":"<%=row[6]%>",
 "value_multa":"<%=row[7]%>"
 }
 <%if (--contador > 0) {%>
@@ -123,20 +124,69 @@
         String dateE = request.getParameter("dateE");
         String dateD = request.getParameter("dateD");
         int biblio = Integer.parseInt(request.getParameter("biblio"));
-        
-       // int aluguel = Aluguel.addAluguel(aluno, livro, biblio, dateE, dateD);
-       // if (aluguel > 0) {
-       //     System.out.println("sucesso");
-       //     msg = "Sucesso na adição";
+
+        int aluguel = Aluguel.addAluguel(aluno, livro, biblio, dateE, dateD);
+        if (aluguel > 0) {
+            System.out.println("sucesso");
+            msg = "Sucesso na adição";
 %>//
 {"re":"<%=msg%>"}
 <%
-//} else {
-   // System.out.println("error");
-    //msg = "Erro na adição";
+} else {
+    System.out.println("error");
+    msg = "Erro na adição";
 %>
 {"re":"<%=msg%>"}
 <%
-       // }
+        }
+    }
+    if (action.equals("addStudant") && !(action.equals(""))) {
+        String name = request.getParameter("name");
+        String cpf = request.getParameter("cpf");
+        String ra = request.getParameter("ra");
+        String email = request.getParameter("email");
+        String aluguel = Aluno.setAluno(name, cpf, ra, email);
+        if (aluguel == "Cadastro efetuado com sucesso") {
+            System.out.println("sucesso");
+            msg = "Sucesso na adição";
+%>//
+{"re":"<%=msg%>"}
+<%
+} else {
+    System.out.println("error");
+    msg = "Erro na adição";
+%>
+{"re":"<%=msg%>"}
+<%
+        }
+    }
+
+    if (action.equals("getStudant") && !(action.equals(""))) {
+        List<Object[]> alunos = Aluno.getAllAlunos();
+        if (alunos == null && alunos.isEmpty()) {
+            if (erro == null) {
+%>
+{"re":"Falha ao trazer os dados dos eventos."}
+<%          } else {%>
+{"re":"<%=erro%>"}
+<%
+    }
+} else {
+    contador = alunos.size();
+%>
+{"alunos":[
+<%for (Object[] row : alunos) {%>
+{"id":<%= row[0]%>,
+"nome":"<%=row[1]%>", 
+"cpf":"<%=row[2]%>",
+"ra":"<%=row[3]%>",
+"email":"<%=row[4]%>"
+}
+<%if (--contador > 0) {%>
+,
+<%}%>
+<%}%>
+]}
+<%}
     }
 %>

@@ -151,7 +151,7 @@
                                             <td>{{aluguel.id_livro}}</td>
                                             <td>{{aluguel.id_bibliotecario}}</td>
                                             <td>{{aluguel.date_emprestimo}}</td>
-                                            <td>{{aluguel.date_devolução_p}}</td>
+                                            <td>{{aluguel.date_devolucao_p}}</td>
                                             <td><a href="#updateBooks" data-toggle="modal" class="btn-add" ng-click="updateBook(livro)">atualizar</a></td>
                                         </tr>                                     
                                     </tbody>
@@ -235,7 +235,7 @@
                             <%@include file="WEB-INF/jspf/updateBooks.jspf" %>
                         </div>
                     </div>
-                    <div id="menu3" class="tab-pane fade">
+                        <div id="menu3" class="tab-pane fade" ng-controller="controllerStudant">
                         <div class="panel-body" id="painel-bd">
                             <div class="form-inline form-table"> 
                                 <div class="row">     
@@ -262,7 +262,7 @@
                                             <option>200</option>                                   
                                         </select>
                                     </div>-->
-                                    <a href="#includeBooks"  data-toggle="modal" class="btn-add">Adicionar</a>                                    
+                                    <a href="#includeStudant"  data-toggle="modal" class="btn-add">Adicionar</a>                                    
                                 </div>
                             </div><br>
                             <div id="sectionLoadRegions">
@@ -271,19 +271,19 @@
                                         <tr>
                                             <th>ID<span></span></th>
                                             <th>Nome<span></span></th>                      
-                                            <th>Tipo<span ></span></th>                      
-                                            <th>Descipção</th>
-                                            <th>ISBN</th>
+                                            <th>CPF<span ></span></th>                      
+                                            <th>RA</th>
+                                            <th>Email</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="livro in livros">
-                                            <td>{{livro.id}}</td>
-                                            <td>{{livro.name}}</td>
-                                            <td>{{livro.type}}</td>
-                                            <td>{{livro.description}}</td>
-                                            <td>{{livro.isbn}}</td>
+                                        <tr ng-repeat="studant in studants">
+                                            <td>{{studant.id}}</td>
+                                            <td>{{studant.name}}</td>
+                                            <td>{{studant.cpf}}</td>
+                                            <td>{{studant.ra}}</td>
+                                            <td>{{studant.email}}</td>
                                             <td><a href="#updateBooks" data-toggle="modal" class="btn-add" ng-click="updateBook(livro)">atualizar</a></td>
                                         </tr>                                     
                                     </tbody>
@@ -297,7 +297,7 @@
                             <div class="text-center" >                                                
                                 
                             </div> 
-                            <%@include file="WEB-INF/jspf/includeBooks.jspf" %>
+                            <%@include file="WEB-INF/jspf/includeStudant.jspf" %>
                             <%@include file="WEB-INF/jspf/updateBooks.jspf" %>
                         </div>
                     </div>

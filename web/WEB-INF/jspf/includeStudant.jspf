@@ -1,0 +1,41 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="modal fade" id="includeStudant" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Adicionar Livro</h4>
+                <button style="margin-top: -20px" type="button" class="close" data-dismiss="modal" id="clo">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <ng-form name="addStudantFrom">
+                    <div class="modal-body">
+                        <div class="form-group">                            
+                            <label for="studant-name" class="form-control-label">Nome:</label><span style="color: red">*</span>
+                            <input ng-model="studant.name" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="studant-cpf" class="form-control-label">CPF:</label><span style="color: red">*</span>
+                            <input class="form-control" ng-model="studant.cpf" type="text" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="studant-ra" class="form-control-label">RA:</label><span style="color: red">*</span>
+                            <input ng-model="studant.ra" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="studant-email" class="form-control-label">Emial:</label><span style="color: red">*</span>
+                            <input ng-model="studant.email" type="email" class="form-control" ng-required="true">
+                        </div>
+                        <p><span style="color: red">*</span>Campos Obrigatórios.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="addStudant(studant)" ng-disabled="addStudantFrom.$invalid" class="btn btn-primary">Adicionar</button>
+                        <button type="button" class="btn btn-secondary" ng-click="fechamodal(x = 2)">Voltar</button>
+                    </div>
+                </ng-form>
+            </form>
+        </div>
+    </div>
+</div>
