@@ -182,9 +182,10 @@ public class Aluguel {
             ResultSet resultSet = statement.executeQuery("SELECT dt_devolucao_prevista_livro FROM aluguel"
                     + "WHERE cd_aluguel_livro = "+id+"");
             if(resultSet.next()){
-                Date date = new Date();
-                long inicio = Long.parseLong(resultSet.getString("dt_devolucao_prevista_livro"));
-                long daysMulta = Math.abs(date.getTime() - inicio);
+                java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("E dd MMM yyyy HH:mm:ss");
+                Date data = formato.parse(resultSet.getString("dt_devolucao_prevista_livro"));
+                Date now = new Date();
+                long daysMulta = Math.abs(now.getTime() - data.getTime());
                 multa = (double) daysMulta * 5;
             }
             resultSet.close();
