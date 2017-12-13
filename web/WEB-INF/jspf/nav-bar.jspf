@@ -1,0 +1,84 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<nav id="navbarP" class='navbar navbar-fixed-top navbar-default navbar-transparent big'>
+    <div class='container'>
+
+        <script>
+        </script>
+        <!-- header Murilo -->
+        <div class='navbar-header'>
+            <!-- botao -->
+            <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#nav-bar'>
+
+                <span class='sr-only'>alterar navegacao</span>
+                <span class='icon-bar'></span>
+                <span class='icon-bar'></span>
+                <span class='icon-bar'></span>
+            </button>
+
+            <a href='index.html' class='navbar-brand'>
+            </a>
+        </div>
+        <!-- navbar Murilo -->
+        <div class='collapse navbar-collapse' id='nav-bar'>
+            <div id="ul-nav" class="nav navbar-nav">
+                <a href="#"><img src="resources/img/open-book2.png" alt=""/></a>
+            </div>
+            <ul id="ul-nav" class="nav navbar-nav navbar-right">
+
+                <li><a id='homeLink' href='home.jsp' style="">HOME</a></li>
+                <li><a id='teamLink' href='home.jsp#team'>EQUIPE</a></li>
+                    <%
+                        if (session.getAttribute("bibliotecarioName") == null) {
+                    %>
+                <li  ><a id='teamLink' href='#loginUsers' data-toggle="modal">LOGIN</a></li>
+                    <%
+                    } else {
+                    %>
+                <li  ><a id='teamLink' href='manager-area.jsp'>MINHA ÁREA</a></li>
+                <form  id="sLogin" class="navbar-form navbar-right whiteC" method="post" style="">
+                    <label>Olá, <%=session.getAttribute("bibliotecarioName")%></label>
+                    <a href="#" ng-click="out()"><img src="resources/img/exit-to-app-button.png" alt=""/></a>
+                </form>
+
+                <%
+                    }
+                %>
+
+            </ul>
+        </div>
+    </div><!--/container -->
+</nav><!-- /nav -->
+<%@include file="success-register.jspf" %>
+<!-- Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+
+<script type="text/javascript">
+                        $(document).on("scroll", function () {
+                            if ($(document).scrollTop() > 120) { //QUANDO O SCROLL PASSAR DOS 100px DO TOPO
+                                $("#navbarP").removeClass("navbar-transparent"); //TROCA P CLASSE TRANPARENTE
+                            } else {
+                                $("#navbarP").addClass("navbar-transparent");//VOLTA P MENU GRANDE TRANPARENTE
+                            }
+                        });
+
+                        var $doc = $('html, body');
+                        $('#homeLink').click(function () {
+                            $doc.animate({
+                                scrollTop: $($.attr(this, 'href')).offset().top
+                            }, 600);
+                        });
+                        $('#rankingLink').click(function () {
+                            $doc.animate({
+                                scrollTop: $($.attr(this, 'href')).offset().top
+                            }, 600);
+                        });
+                        $('#teamLink').click(function () {
+                            $doc.animate({
+                                scrollTop: $($.attr(this, 'href')).offset().top
+                            }, 600);
+                        });
+
+</script>

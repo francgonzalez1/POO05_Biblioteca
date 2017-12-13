@@ -1,0 +1,41 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="modal fade" id="includeBooks" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Adicionar Livro</h4>
+                <button style="margin-top: -20px" type="button" class="close" data-dismiss="modal" id="clo">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <ng-form name="addBookFrom">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="book-title" class="form-control-label">Titulo:</label><span style="color: red">*</span>
+                            <input ng-model="book.title" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">                            
+                            <label for="book-type" class="form-control-label">Tipo</label><span style="color: red">*</span>
+                            <input ng-model="book.type" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="book-desc" class="form-control-label">Descrição:</label><span style="color: red">*</span>
+                            <textarea class="form-control" ng-model="book.desc" rows="5" maxlength="500" ng-required="true"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="book-isbn" class="form-control-label">ISBN:</label><span style="color: red">*</span>
+                            <input ng-model="book.isbn" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <p><span style="color: red">*</span>Campos Obrigatórios.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="addBook(book)" ng-disabled="addBookFrom.$invalid" class="btn btn-primary">Adicionar</button>
+                        <button type="button" class="btn btn-secondary" ng-click="fechamodal(x = 2)">Voltar</button>
+                    </div>
+                </ng-form>
+            </form>
+        </div>
+    </div>
+</div>

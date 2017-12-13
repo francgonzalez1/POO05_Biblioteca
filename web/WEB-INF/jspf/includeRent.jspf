@@ -1,0 +1,45 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="modal fade" id="includeRent" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Adicionar Livro</h4>
+                <button style="margin-top: -20px" type="button" class="close" data-dismiss="modal" id="clo">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <ng-form name="addRentFrom">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="book-title" class="form-control-label">ID do Aluno:</label><span style="color: red">*</span>
+                            <input ng-model="rent.aluno" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">                            
+                            <label for="book-type" class="form-control-label">ID do Livro:</label><span style="color: red">*</span>
+                            <input ng-model="rent.livro" type="text" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="book-desc" class="form-control-label">ID do Bibliotecário:</label><span style="color: red">*</span>
+                            <input class="form-control" ng-model="rent.biblio" rows="5" maxlength="500" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="book-isbn" class="form-control-label">Data do Empréstimo:</label><span style="color: red">*</span>
+                            <input ng-model="rent.dateE" type="date" class="form-control" ng-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="book-isbn" class="form-control-label">Data da Devolução:</label><span style="color: red">*</span>
+                            <input ng-model="rent.dateD" type="date" class="form-control" ng-required="true">
+                        </div>
+                        <p><span style="color: red">*</span>Campos Obrigatórios.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="addRent(rent)" ng-disabled="addRentFrom.$invalid" class="btn btn-primary">Adicionar</button>
+                        <button type="button" class="btn btn-secondary" ng-click="fechamodal(x = 2)">Voltar</button>
+                    </div>
+                </ng-form>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<!--Modal box Login-->
+<div class="modal fade" id="success" role="dialog" >
+    <div class="modal-dialog modal-sm" >
+        <!-- Modal content no 1-->
+        <div class="modal-content" id="modal-register">
+            <div id="modal-header" class="modal-header" >
+                <button type="button" class="close" data-dismiss="modal" id="clo">&times;</button>
+                <h4 id="modal-title" class="modal-title text-center form-title">Cadastro</h4>
+            </div>
+            <div class="modal-body padtrbl">
+
+                <div id="login-box-body">
+                    <br><p id="login-box-msg">Seu cadastro foi efetuado com sucesso, agora basta realizar seu login!</p><br>
+                    <button type="button" class="btn btn-block btn-flat" data-dismiss="modal" id="clo">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

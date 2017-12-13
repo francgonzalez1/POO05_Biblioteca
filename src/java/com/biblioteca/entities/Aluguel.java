@@ -94,6 +94,26 @@ public class Aluguel {
         return alugueis;
     }
     
+    public static List<Object[]> getAlugueis(){
+        ArrayList<Object[]> alugueis = new ArrayList<>();
+        Object[] aluguelR;
+        try{
+            Statement statement = Database.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM aluguel");
+            while(resultSet.next()){
+                aluguelR = new Object[8];
+                for(int i = 0; i < 8; i++){
+                    aluguelR[i] = resultSet.getString(i + 1);
+                }
+                alugueis.add(aluguelR);
+            }
+            statement.close();
+        }catch(Exception exception){
+            System.out.println("[class:Livro][catch:getLivros]: "+exception.getMessage());
+        }
+        return alugueis;
+    }
+    
     public static Aluguel getAluguel(int id_aluguel){
         Aluguel aluguel = null;
         try{
@@ -117,7 +137,8 @@ public class Aluguel {
         return aluguel;
     }
     
-    public static void addAluguel(int id_aluno, int id_livro, int id_bibliotecario, Date dt_emprestimo, Date dt_devolucao_prevista){
+    public static int addAluguel(int id_aluno, int id_livro, int id_bibliotecario, Date dt_emprestimo, Date dt_devolucao_prevista){
+        int aux;
         try{
             String SQL = "INSERT INTO aluguel VALUES (default, ?, ?, ?, ?, ?, null, null)";
             PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
@@ -128,9 +149,12 @@ public class Aluguel {
             statement.setDate(5, new java.sql.Date(dt_devolucao_prevista.getTime()));
             statement.execute();
             statement.close();
+            aux = 1;
         }catch(Exception exception){
             System.out.println("[class:Aluguel][catch:addAluguel]: "+exception.getMessage());
+            aux = 0;
         }
+        return aux;
     }
     
     public static void finishAluguel(int id){

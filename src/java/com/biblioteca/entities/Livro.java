@@ -22,9 +22,10 @@ public class Livro {
         this.isbn = isbn;
     }
     // Método responsável pela adição de livros a db.
-    public void setLivro(String titulo, String tipo, String descricao, String isbn){
+    public static int setLivro(String titulo, String tipo, String descricao, String isbn){
+        int aux;
         try{
-           String SQL = "INSERT INTO livro VALUES (default, ?, ?, ?, ?)";
+           String SQL = "INSERT INTO APP.LIVRO (NM_LIVRO, NM_TIPO_LIVRO, DS_LIVRO,CD_ISBN_LIVRO) VALUES (?, ?, ?, ?)";
            PreparedStatement statement = Database.getConnection().prepareStatement(SQL);
            statement.setString(1, titulo);
            statement.setString(2, tipo);
@@ -32,9 +33,12 @@ public class Livro {
            statement.setString(4, isbn);
            statement.execute();
            statement.close();
+           aux = 1;
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:setLivro]: "+exception.getMessage());
+            aux = 0;
         }
+        return aux;
     }
     
     // Método que retorna um livro pelo id (retorna objeto Livro ou null).
@@ -85,7 +89,8 @@ public class Livro {
     // Método responsável por atualizar todos os itens de um livro por seu id.
     // HINT: Utilize um formulário que já tenha todos os valores setados nele (value) e
     // permita ao usuário alterar somente o que quer.
-    public void updateLivro(int id, String titulo, String tipo, String descricao, String isbn){
+    public static int updateLivro(int id, String titulo, String tipo, String descricao, String isbn){
+        int aux;
         try{
             String SQL = "UPDATE livro SET "
                     + "nm_livro = ?"
@@ -101,24 +106,27 @@ public class Livro {
             statement.setInt(5, id);
             statement.execute();
             statement.close();
+            aux = 1;
         }catch(Exception exception){
             System.out.println("[class:Livro][catch:updateLivro]: "+exception.getMessage());
+            aux = 0;
         }
+        return aux;
     }
     
     // Método que retorna um ArrayList<Livro> de livros.
-    public List<Livro> getLivros(){
-        ArrayList<Livro> livros = new ArrayList<>();
+    public static List<Object[]> getLivros(){
+        ArrayList<Object[]> livros = new ArrayList<>();
+        Object[] livroR;
         try{
             Statement statement = Database.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM livro");
             while(resultSet.next()){
-                Livro livro = new Livro(resultSet.getInt("cd_livro"), 
-                                  resultSet.getString("nm_livro"),
-                                  resultSet.getString("nm_tipo_livro"), 
-                                  resultSet.getString("ds_livro"), 
-                                  resultSet.getString("cd_isbn_livro"));
-                livros.add(livro);
+                livroR = new Object[5];
+                for(int i = 0; i < 5; i++){
+                    livroR[i] = resultSet.getString(i + 1);
+                }
+                livros.add(livroR);
             }
             statement.close();
         }catch(Exception exception){

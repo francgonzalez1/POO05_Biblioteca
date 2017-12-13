@@ -1,0 +1,33 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+<div class='container-fluid' id='footer'>
+    <div class='row' >
+        <div class='col-md-12 footer'>
+            <div class='row' >
+                <div class='col-md-4'>
+                    <img src="resources/img/books.png" alt=""/>
+                </div>
+                <div class='col-md-6' style="margin-left: 90px;">
+                    <ul class='nav'>
+                        <li><a href='home.jsp'>Home</a></li>
+                        <li class='divisor' role='separator'></li>
+                        <li><a href='home.jsp#team'>Equipe</a></li>
+                        <li class='divisor' role='separator'></li>
+                        <li><a href='quiz.jsp'>Login</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="row">
+                <p class='text-center'>Copyright&copy; 2017 - Desenvolvido pela TGS </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js" type="text/javascript"></script> 
+<script src="resources/js/angularJs/angular-library.js" type="text/javascript"></script>
